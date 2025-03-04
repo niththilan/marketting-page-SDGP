@@ -3,6 +3,28 @@ import { Calendar, MapPin, Users, Brain, Search, Filter, ArrowRight, Download, U
 import { Footer } from './components/Footer';
 import React, { useState, useEffect, useRef } from 'react';
 
+import basketball from './images/team/view-basketball-court.jpg'
+import tennis from './images/team/ten.jpg'
+import swim from './images/team/swim.jpg'
+import bb from './images/team/basket.jpg'
+
+import court from './images/team/courts.jpeg'
+import booking from './images/team/booking.jpeg'
+import details from './images/team/details.jpeg'
+import user from './images/team/user.jpeg'
+
+import map from './images/team/3dmap.avif'
+import ai from './images/team/ai.webp'
+import connect from './images/team/connect.jpg'
+
+import sahi from './images/team/nith 2.jpg'
+import gundan from './images/team/nishhh.jpg'
+import kavi from './images/team/kavi2 2.jpeg'
+import keshan from './images/team/keshan.jpg'
+import ashvi from './images/team/ashvi.jpg'
+
+
+
 // Add responsive viewport meta tag to the HTML file
 // <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -15,13 +37,13 @@ const ImageCarousel = () => {
 
   const images = [
     {
-      src: "src/images/team/view-basketball-court.jpg",
+      src: basketball,
       alt: "Basketball court",
       title: "Premium Basketball Courts",
       description: "State-of-the-art indoor courts with professional flooring"
     },
     {
-      src: "src/images/team/ten.jpg",
+      src: tennis,
       alt: "Tennis court",
       title: "Championship Tennis Courts",
       description: "Well-maintained courts for players of all skill levels"
@@ -33,7 +55,7 @@ const ImageCarousel = () => {
       description: "Full-size and training fields with perfect turf conditions"
     },
     {
-      src: "src/images/team/swim.jpg",
+      src: swim,
       alt: "Swimming pool",
       title: "Swimming Pools",
       description: "Temperature-controlled pools with lap swimming lanes"
@@ -249,7 +271,7 @@ const AISearchSection = ({ isDarkMode }) => {
       available: "3 courts available",
       amenities: ["Showers", "Parking", "Locker Room"],
       rating: 4.5,
-      image: "src/images/team/basket.jpg"
+      image: bb
     }
   ];
 
@@ -474,7 +496,7 @@ const AthlonPhoneCarousel = ({ isDarkMode }) => {
   // Athlon app screen data with realistic descriptions
   const phones = [
     {
-      src: "/src/images/team/courts.jpeg",
+      src: court,
       fallback: "/api/placeholder/600/1200?text=Discover",
       title: "Available Sports",
       description: "Explore a variety of sports and find courts for your favorite games. Browse availability and choose the perfect spot for your next match.",
@@ -482,7 +504,7 @@ const AthlonPhoneCarousel = ({ isDarkMode }) => {
       color: "from-blue-500 to-indigo-600"
     },
     {
-      src: "/src/images/team/booking.jpeg",
+      src: booking,
       fallback: "/api/placeholder/600/1200?text=Booking",
       title: "Real-Time Booking",
       description: "Select available time slots with our intuitive calendar interface. See real-time availability updates and secure your spot instantly with just a few taps.",
@@ -490,7 +512,7 @@ const AthlonPhoneCarousel = ({ isDarkMode }) => {
       color: "from-emerald-500 to-teal-600"
     },
     {
-      src: "/src/images/team/details.jpeg",
+      src: details,
       fallback: "/api/placeholder/600/1200?text=Profile",
       title: "Court Details",
       description: "Get all the information you need about a court, including location, pricing, amenities, and user reviews before making a reservation.",
@@ -498,7 +520,7 @@ const AthlonPhoneCarousel = ({ isDarkMode }) => {
       color: "from-amber-500 to-orange-600"
     },
     {
-      src: "/src/images/team/user.jpeg",
+      src: user,
       fallback: "/api/placeholder/600/1200?text=Reviews",
       title: "User Profile",
       description: "Contribute to the sports community by reading and sharing detailed reviews of sports facilities. Rate venues based on court quality, staff, amenities, and overall experience.",
@@ -932,19 +954,19 @@ function App() {
     {
       title: "Interactive 3D Maps",
       description: "Explore facilities in stunning 3D detail. Virtual tours and interactive maps help you choose the perfect court for your needs.",
-      image: "src/images/team/3dmap.avif",
+      image: map,
       icon: MapPin
     },
     {
       title: "AI Search Facility",
       description: "Our AI-powered system learns your preferences and suggests the best facilities based on your playing style and history.",
-      image: "src/images/team/ai.webp",
+      image: connect,
       icon: Brain
     },
     {
       title: "Connect with Players",
       description: "Coordinate with friends, teammates, or facility managers directly through our built-in messaging system.",
-      image: "src/images/team/connect.jpg",
+      image: ai,
       icon: Users
     }
   ];
@@ -2060,42 +2082,42 @@ function App() {
                 {
                   name: 'Santhasoruban Niththilan',
                   role: 'Frontend Developer',
-                  image: '/src/images/team/nith 2.jpg',
+                  image: sahi,
                   linkedin: 'https://www.linkedin.com/in/niththilan-santhasoruban-20391b247/',
                   instagram: 'https://www.instagram.com/niththilan_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
                 },
                 {
                   name: 'Kamalanandan Nishvaraj',
                   role: 'Frontend Developer',
-                  image: '/src/images/team/nishhh.jpg',
+                  image: gundan,
                   linkedin: 'https://www.linkedin.com/in/nishvaraj-kamalananthan-35760b176/m',
                   instagram: 'https://www.instagram.com/nishvaraj?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
                 },
                 {
                   name: 'Kavishani Yoganathan',
                   role: 'Frontend Developer',
-                  image: '/src/images/team/kavi2 2.jpeg',
+                  image: kavi,
                   linkedin: 'https://www.linkedin.com/in/kavishani-yoganathan-27a938275/',
                   instagram: 'https://www.instagram.com/kavishaniy/',
                 },
                 {
                   name: 'Ragulan Keshan',
                   role: 'Backend Developer',
-                  image: '/src/images/team/keshan.jpg',
+                  image: keshan,
                   linkedin: 'https://www.linkedin.com/in/ragulan-kopikeshan-ba24902b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
                   instagram: 'https://www.instagram.com/iamkeshan_/',
                 },
                 {
                   name: 'Ashvitha Raveendran',
                   role: 'Backend Developer',
-                  image: '/src/images/team/ashvi.jpg',
+                  image: ashvi,
                   linkedin: 'https://www.linkedin.com/in/ashvitha-ravindran-611819265/',
                   instagram: 'https://www.instagram.com/ashvi_ravi/',
                 },
                 {
                   name: 'Balendran Harishith',
                   role: 'Backend Developer',
-                  image: '/src/images/team/harishith.jpg',
+                  image: 'src',
                   linkedin: 'https://www.linkedin.com/in/balendran-harishith-560823292/',
                   instagram: 'https://www.instagram.com/horried_shith9/',
                 }
