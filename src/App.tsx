@@ -1118,6 +1118,7 @@ function App() {
         'Basic facility analytics',
         'Email support',
         'Access to standard locations',
+          'Basic user profiles'
       ],
     },
     {
