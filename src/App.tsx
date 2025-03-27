@@ -1110,22 +1110,22 @@ function App() {
 
   const pricingPlans = [
     {
-      name: 'Basic',
-      price: 999,
+      name: 'Freemium',
+      price: 0,
       description: "Perfect for individual players and casual enthusiasts",
       features: [
-        'Up to 5 bookings per month',
+        '15 hours of facility booking time per month',
         'Basic facility analytics',
         'Email support',
         'Access to standard locations',
       ],
     },
     {
-      name: 'Pro',
-      price: 1999,
+      name: 'Standard',
+      price: 249,
       description: "Ideal for regular players and teams",
       features: [
-        'Unlimited monthly bookings',
+        '70 hours of facility booking time per month',
         'Advanced facility insights',
         'Priority customer support',
         'Group booking features',
@@ -1134,15 +1134,15 @@ function App() {
       recommended: true,
     },
     {
-      name: 'Enterprise',
-      price: 3999,
+      name: 'Premium',
+      price: 499,
       description: "Tailored for sports organizations and complexes",
       features: [
-        'Unlimited custom booking management',
+        '100+ hours of facility booking time per month',
+        'Premium booking slots during peak hours',
         'Dedicated account manager',
         'Custom platform integration',
-        'Advanced reporting',
-        'Premium API access',
+        'Group booking discounts',
       ],
     },
   ];
