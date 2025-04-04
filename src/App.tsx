@@ -944,6 +944,51 @@ function App() {
     seconds: 0
   });
 
+  // Create a ref to store the launch date to prevent it from being recreated on each render
+  const launchDateRef = useRef(null);
+
+  // Countdown timer effect
+  useEffect(() => {
+    // Initialize the launch date if it hasn't been set yet
+    if (!launchDateRef.current) {
+      const launchDate = new Date();
+      launchDate.setDate(launchDate.getDate() + 100); // Changed from 30 to 100 days
+      launchDateRef.current = launchDate;
+    }
+
+    const updateCountdown = () => {
+      const now = new Date();
+      const difference = Math.max(0, launchDateRef.current.getTime() - now.getTime());
+
+      if (difference <= 0) {
+        // Launch date has passed
+        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      setCountdown({ days, hours, minutes, seconds });
+    };
+
+    // Initial update
+    updateCountdown();
+
+    // Update every second
+    const intervalId = setInterval(updateCountdown, 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Function to pad numbers with leading zeros (alternative to padStart for older browsers)
+  const padZero = (num) => {
+    return num < 10 ? `0${num}` : num.toString();
+  };
+
   // Simplified state for progress bar animation - just need to know if it's animated or not
   const [progressAnimated, setProgressAnimated] = useState(false);
 
@@ -975,40 +1020,6 @@ function App() {
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
-
-  // Countdown timer effect
-  useEffect(() => {
-    // Set launch date (e.g., 30 days from now)
-    const launchDate = new Date();
-    launchDate.setDate(launchDate.getDate() + 30);
-
-    const updateCountdown = () => {
-      const now = new Date();
-      const difference = launchDate - now;
-
-      if (difference <= 0) {
-        // Launch date has passed
-        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return;
-      }
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      setCountdown({ days, hours, minutes, seconds });
-    };
-
-    // Initial update
-    updateCountdown();
-
-    // Update every second
-    const intervalId = setInterval(updateCountdown, 1000);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
 
   // Set up Intersection Observer for the progress bars
   useEffect(() => {
@@ -1118,7 +1129,7 @@ function App() {
         'Basic facility analytics',
         'Email support',
         'Access to standard locations',
-          'Basic user profiles'
+        'Basic user profiles'
       ],
     },
     {
@@ -1302,6 +1313,7 @@ function App() {
                 <a href="#pricing" className={`text-sm lg:text-base font-medium ${isDarkMode ? 'text-white/80 hover:text-white' : 'text-navy-800/80 hover:text-navy-900'} transition-colors`}>Pricing</a>
               </div>
 
+
               <div className="flex items-center space-x-2 sm:space-x-4">
                 {/* Theme Toggle Button */}
                 <button
@@ -1330,10 +1342,6 @@ function App() {
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                       </svg>
                   )}
-                </button>
-
-                <button className={`${isDarkMode ? 'bg-white text-navy-900' : 'bg-navy-700 text-white'} px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium hover:opacity-90 transition-opacity hidden md:block`}>
-                  Sign up
                 </button>
 
                 <button
@@ -1396,8 +1404,9 @@ function App() {
           )}
         </AnimatePresence>
 
-        {/* 1. Hero Section (Home page) - Updated with better responsive layout */}
-        <section className="min-h-screen pt-20 sm:pt-28 md:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 flex items-center relative overflow-hidden">
+
+        {/* 1. Hero Section (Home page) - Fixed to fit the screen */}
+        <section className="h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6">
           {/* Static background elements */}
           <div className="absolute inset-0 -z-10">
             <div className={`absolute top-0 left-1/4 w-64 sm:w-96 h-64 sm:h-96 ${isDarkMode ? 'bg-navy-500/20' : 'bg-navy-500/10'} rounded-full filter blur-3xl`}></div>
@@ -1405,8 +1414,8 @@ function App() {
             <div className={`absolute top-1/3 right-1/3 w-48 sm:w-64 h-48 sm:h-64 ${isDarkMode ? 'bg-stone-500/5' : 'bg-navy-300/5'} rounded-full filter blur-3xl`}></div>
           </div>
 
-          <div className="container mx-auto">
-            <div className="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12">
+          <div className="container mx-auto mt-4 sm:mt-8 md:mt-12"> {/* Adjusted top margin to account for header */}
+            <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6 lg:gap-10">
               <motion.div
                   initial={{opacity: 0, y: 20}}
                   animate={{opacity: 1, y: 0}}
@@ -1418,29 +1427,29 @@ function App() {
                   #1 Sports Facility Booking Platform in Sri Lanka
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-8 leading-tight">
-                <span className={isDarkMode ? "text-stone-300" : "text-navy-600"}>
-                  Seamless Sports Complex Booking at Your Fingertips!
-                </span>
-
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+        <span className={isDarkMode ? "text-stone-300" : "text-navy-600"}>
+          Seamless Sports Complex Booking<br/>
+          at Your Fingertips!
+        </span>
                 </h1>
 
-                <h4 className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-stone-300' : 'text-navy-700'} mb-6 sm:mb-10`}>
-                  <span>Book your favorite sports facilities instantly, manage your reservations,</span>
+                <h4 className={`text-sm sm:text-base md:text-lg ${isDarkMode ? 'text-stone-300' : 'text-navy-700'} mb-4 sm:mb-6`}>
+                  <span>Book your favorite sports facilities instantly, manage your reservations, and connect with other sports enthusiasts all in one powerful app.</span>
                   <span className="hidden sm:inline"> <br/> </span>
-                  <span>and connect with other sports enthusiasts all in one powerful app.</span>
+
                 </h4>
 
                 <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                   <button
                       className="bg-navy-700 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg text-white hover:bg-navy-800 transition-colors duration-300 flex items-center justify-center gap-2"
                   >
-                    Coming Soon <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5"/>
+                    Coming Soon <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                 </div>
 
                 {/* Feature highlights (moved from floating positions) - Hide on small screens */}
-                <div className="mt-6 hidden sm:flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                <div className="mt-4 sm:mt-6 hidden sm:flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                   <div
                       className={`${isDarkMode ? 'bg-white/10 border border-white/20' : 'bg-white border border-navy-700/20'} backdrop-blur-md p-3 sm:p-4 rounded-xl shadow-xl w-full sm:w-56`}>
                     <div className="flex items-center gap-2 sm:gap-3">
@@ -1474,7 +1483,7 @@ function App() {
                   initial={{opacity: 0, x: 30}}
                   animate={{opacity: 1, x: 0}}
                   transition={{duration: 0.6}}
-                  className="relative w-full lg:w-3/5 h-[320px] sm:h-[400px] md:h-[450px] lg:h-[500px] xl:h-[600px] mt-8 lg:mt-0"
+                  className="relative w-full lg:w-3/5 h-[300px] sm:h-[380px] md:h-[420px] lg:h-[480px] xl:h-[520px] mt-6 lg:mt-0"
               >
                 <div className="h-full w-full">
                   {/* Image Carousel Component */}
@@ -1484,27 +1493,9 @@ function App() {
             </div>
 
             {/* Simple static scroll indicator */}
-            <div className="absolute bottom-4 sm:bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+            <div className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
               <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-stone-400' : 'text-navy-600'} mb-1 sm:mb-2`}>Scroll to explore</p>
-              <ChevronDown className={`w-4 h-4 sm:w-6 sm:h-6 ${isDarkMode ? 'text-white/60' : 'text-navy-600/60'}`} />
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section - simplified with border removed in light mode */}
-        <section className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 relative">
-          <div className="container mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
-              {statsItems.map((stat, index) => (
-                  <div
-                      key={index}
-                      className={`${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-white hover:bg-navy-900/5'} backdrop-blur-lg rounded-lg sm:rounded-xl p-3 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all duration-200`}
-                  >
-                    <stat.icon className={`w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 sm:mb-4 ${isDarkMode ? 'text-stone-400 group-hover:text-stone-300' : 'text-navy-600 group-hover:text-navy-700'} transition-colors duration-300`} />
-                    <h3 className={`text-xl sm:text-2xl lg:text-3xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-navy-700'}`}>{stat.value}</h3>
-                    <p className={`text-sm ${isDarkMode ? 'text-stone-300' : 'text-navy-600'}`}>{stat.label}</p>
-                  </div>
-              ))}
+              <ChevronDown className={`w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-white/60' : 'text-navy-600/60'} animate-bounce`} />
             </div>
           </div>
         </section>
@@ -1646,13 +1637,13 @@ function App() {
                       We're putting the finishing touches on Athlon. Be among the first to experience the future of sports facility booking.
                     </p>
 
-                    {/* Countdown boxes - Now using dynamic values */}
+                    {/* Updated Countdown boxes with padZero function */}
                     <div className="grid grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-8">
                       {[
-                        { value: countdown.days.toString().padStart(2, '0'), label: "Days" },
-                        { value: countdown.hours.toString().padStart(2, '0'), label: "Hours" },
-                        { value: countdown.minutes.toString().padStart(2, '0'), label: "Minutes" },
-                        { value: countdown.seconds.toString().padStart(2, '0'), label: "Seconds" }
+                        { value: padZero(countdown.days), label: "Days" },
+                        { value: padZero(countdown.hours), label: "Hours" },
+                        { value: padZero(countdown.minutes), label: "Minutes" },
+                        { value: padZero(countdown.seconds), label: "Seconds" }
                       ].map((item, index) => (
                           <div
                               key={index}
