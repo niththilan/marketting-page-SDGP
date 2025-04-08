@@ -925,6 +925,10 @@ function App() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  // Add typewriter state
+  const [typedText, setTypedText] = useState('');
+  const fullText = "#1 Sports Facility Booking Platform in Sri Lanka";
+
 
   // Update window width on resize
   useEffect(() => {
@@ -935,6 +939,16 @@ function App() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    if (typedText === fullText) return;
+
+    const timeout = setTimeout(() => {
+      setTypedText(fullText.substring(0, typedText.length + 1));
+    }, 50); // Adjust typing speed here (lower = faster)
+
+    return () => clearTimeout(timeout);
+  }, [typedText, fullText]);
 
   // Countdown timer state
   const [countdown, setCountdown] = useState({
@@ -947,13 +961,22 @@ function App() {
   // Create a ref to store the launch date to prevent it from being recreated on each render
   const launchDateRef = useRef(null);
 
-  // Countdown timer effect
+  // Original countdown timer effect with localStorage persistence
   useEffect(() => {
-    // Initialize the launch date if it hasn't been set yet
+    // Check if there's already a saved launch date in localStorage
+    const savedLaunchDate = localStorage.getItem('athlonLaunchDate');
+
     if (!launchDateRef.current) {
-      const launchDate = new Date();
-      launchDate.setDate(launchDate.getDate() + 100); // Changed from 30 to 100 days
-      launchDateRef.current = launchDate;
+      if (savedLaunchDate) {
+        // Use the saved launch date if it exists
+        launchDateRef.current = new Date(parseInt(savedLaunchDate, 10));
+      } else {
+        // Create a new launch date and save it to localStorage
+        const launchDate = new Date();
+        launchDate.setDate(launchDate.getDate() + 100); // 100 days from now
+        launchDateRef.current = launchDate;
+        localStorage.setItem('athlonLaunchDate', launchDate.getTime().toString());
+      }
     }
 
     const updateCountdown = () => {
@@ -1424,20 +1447,20 @@ function App() {
               >
                 <div
                     className={`inline-block px-3 sm:px-4 py-1 rounded-full ${isDarkMode ? 'bg-white/10 border border-white/20' : 'bg-navy-700/10 border border-navy-700/20'} text-xs sm:text-sm font-medium mb-4 sm:mb-6`}>
-                  #1 Sports Facility Booking Platform in Sri Lanka
+                  {typedText}
+                  <span className={`inline-block w-1 sm:w-1.5 h-4 bg-current ml-0.5 ${typedText === fullText ? 'opacity-0' : 'opacity-100 animate-pulse'}`}></span>
                 </div>
 
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-        <span className={isDarkMode ? "text-stone-300" : "text-navy-600"}>
-          Seamless Sports Complex Booking<br/>
-          at Your Fingertips!
-        </span>
+          <span className={isDarkMode ? "text-stone-300" : "text-navy-600"}>
+            Seamless Sports Complex Booking<br/>
+            at Your Fingertips!
+          </span>
                 </h1>
 
                 <h4 className={`text-sm sm:text-base md:text-lg ${isDarkMode ? 'text-stone-300' : 'text-navy-700'} mb-4 sm:mb-6`}>
                   <span>Book your favorite sports facilities instantly, manage your reservations, and connect with other sports enthusiasts all in one powerful app.</span>
                   <span className="hidden sm:inline"> <br/> </span>
-
                 </h4>
 
                 <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
@@ -2053,7 +2076,7 @@ function App() {
         {/* 7. App Screenshots Section (Explore Our App) - Enhanced with iPhone 16 Pro Max */}
         <AthlonPhoneCarousel isDarkMode={isDarkMode} />
 
-        {/* 9. Team Section (Meet Our Team) - Updated with working images */}
+        {/* 9. Team Section (Meet Our Team) - Updated with 4 members */}
         <section id="team" className={`py-12 sm:py-16 md:py-24 px-4 sm:px-6 ${isDarkMode ? 'bg-navy-800/50' : 'bg-navy-100'} relative`}>
           <div className="absolute inset-0 -z-10">
             {/* Reduced number of blur elements */}
@@ -2069,7 +2092,7 @@ function App() {
               <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-stone-300' : 'text-navy-700'}`}>A passionate team of sports enthusiasts and tech innovators dedicated to revolutionizing how you book sports facilities.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto">
               {[
                 {
                   name: 'Santhasoruban Niththilan',
@@ -2098,29 +2121,15 @@ function App() {
                   image: keshan,
                   linkedin: 'https://www.linkedin.com/in/ragulan-kopikeshan-ba24902b4/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
                   instagram: 'https://www.instagram.com/iamkeshan_/',
-                },
-                {
-                  name: 'Ashvitha Raveendran',
-                  role: 'Backend Developer',
-                  image: ashvi,
-                  linkedin: 'https://www.linkedin.com/in/ashvitha-ravindran-611819265/',
-                  instagram: 'https://www.instagram.com/ashvi_ravi/',
-                },
-                {
-                  name: 'Balendran Harishith',
-                  role: 'Backend Developer',
-                  image: 'src',
-                  linkedin: 'https://www.linkedin.com/in/balendran-harishith-560823292/',
-                  instagram: 'https://www.instagram.com/horried_shith9/',
                 }
               ].map((member, index) => (
                   <div
                       key={index}
                       className="group"
                   >
-                    <div className={`h-full ${isDarkMode ? 'bg-white/5 border border-white/10 hover:bg-white/10' : 'bg-white border border-navy-200 hover:border-navy-400'} rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lg`}>
+                    <div className={`h-full w-full ${isDarkMode ? 'bg-white/5 border border-white/10 hover:bg-white/10' : 'bg-white border border-navy-200 hover:border-navy-400'} rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl`}>
                       {/* Image container with error handling */}
-                      <div className="relative overflow-hidden h-48 sm:h-64 md:h-72">
+                      <div className="relative overflow-hidden h-52 sm:h-72 md:h-80">
                         {/* Fallback color while image loads */}
                         <div className="absolute inset-0 bg-navy-800"></div>
 
@@ -2138,7 +2147,7 @@ function App() {
                       </div>
 
                       {/* Content section */}
-                      <div className="p-4 sm:p-6">
+                      <div className="p-5 sm:p-7">
                         <h3 className={`text-lg sm:text-xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-navy-800'}`}>
                           {member.name}
                         </h3>
